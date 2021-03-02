@@ -24,8 +24,8 @@ class Rental (Base):
     rental_date = Column(Date)
     return_date = Column(Date)
     due_date = Column(Date)
-    user_id = Column(Integer, ForeignKey="users.uid")  # foreign key
-    movie_id = Column(Integer, ForeignKey="users.mid")  # foreign key
+    user_id = Column(Integer, ForeignKey("users.uid"))  # foreign key
+    movie_id = Column(Integer, ForeignKey("movies.mid"))  # foreign key
 
     # relationship
     lender = relationship("User", back_populates="rentals")
@@ -42,7 +42,7 @@ class Movie (Base):
     cost = Column(Integer)
     replacement_cost = Column(Integer)
     past_return_charge = Column(Integer)
-    is_rented = Column(Boolean, default = False)
+    is_rented = Column(Boolean, default=False)
 
     # relationship
     rental_shelf = relationship("Rental", back_populates="movie")
