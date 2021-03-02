@@ -14,13 +14,6 @@ class UserCreate(UserBase):
     password: str
 
 
-class User(UserBase):
-    uid: int
-    is_active: bool
-    rentals: List [Rental] = []
-
-
-
 class RentalBase(BaseModel):
     rental_date: date
 
@@ -31,8 +24,11 @@ class RentalCreate(RentalBase):
 
 class Rental(RentalBase):
     rid: int
-    userid: int
-    movieid: int
+    user_id: int
+    movie_id: int
+
+    class Config:
+        orm_mode = True
 
 
 class MovieBase (BaseModel):
@@ -46,6 +42,19 @@ class MovieCreate (MovieBase):
     replacement_cost: int
     past_return_charge: int
 
+
 class Movie (MovieBase):
-    mid:int
+    mid: int
     is_rented: bool
+
+    class Config:
+        orm_mode = True
+
+
+class User(UserBase):
+    uid: int
+    pass
+
+    class Config:
+        orm_mode = True
+  
