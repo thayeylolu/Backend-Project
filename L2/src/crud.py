@@ -16,7 +16,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 # movie
 
 
-def get_moive(db: Session, movie_id: int):
+def get_movie(db: Session, movie_id: int):
     return db.query(models.Movie).filter(models.Movie.mid == movie_id).first()
 
 
@@ -27,7 +27,7 @@ def get_movie_by_title(db: Session, title: str):
 def get_movies(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Movie).offset(skip).limit(limit).all()
 
-# get rtental
+# get rental
 
 
 def get_rental(db: Session, rental_id: int):
@@ -71,3 +71,27 @@ def create_rental(db: Session, rental: schemas.RentalCreate, user_id: int, movie
     db.commit()
     db.refresh(db_rental)
     return db_rental
+
+# delete by id:
+
+
+def delete_user_by_id(db: Session, user_id: int):
+    return db.query(models.User).filter(models.User.uid == user_id).delete(synchronize_session=False)
+
+def delete_rental_by_id(db: Session, rental_id: int):
+    return db.query(models.Rental).filter(models.Rental.rid == rental_id).delete(synchronize_session=False)
+
+
+def delete_movie_by_id(db: Session,  movie_id: int):
+    return db.query(models.Movie).filter(models.Movie.mid == movie_id).delete(synchronize_session=False)
+
+# delete by email, title
+
+
+def delete_user_by_email(db: Session, email: str):
+    return db.query(models.User).filter(models.User.email==email).delete(synchronize_session=False)
+
+
+def delete_movie_by_title(db: Session, title: str):
+    return db.query(models.Movie).filter(models.Movie.title == title).delete(synchronize_session = False)
+
