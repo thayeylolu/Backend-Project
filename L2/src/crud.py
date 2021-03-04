@@ -75,8 +75,12 @@ def create_rental(db: Session, rental: schemas.RentalCreate, user_id: int, movie
 # delete by id:
 
 
-def delete_user_by_id(db: Session, user_id: int):
-    return db.query(models.User).filter(models.User.uid == user_id).delete(synchronize_session=False)
+def delete_user_by_id(db: Session, user_id: int, user:schemas.UserCreate):
+    del_user =db.query(models.User).filter(models.User.uid == user_id).delete(synchronize_session=False)
+    db.add(del_user)
+    db.commit()
+    db.refresh(del_user)
+    return del_user
 
 def delete_rental_by_id(db: Session, rental_id: int):
     return db.query(models.Rental).filter(models.Rental.rid == rental_id).delete(synchronize_session=False)
