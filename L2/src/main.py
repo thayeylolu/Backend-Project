@@ -50,7 +50,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 @app.delete("/users/{user_id}")
 def del_user(user_id: int, user: schemas.User, db: Session = Depends(get_db)):
     db_user = crud.delete_user_by_id(db, user_id=user.uid)
-    if not db_user:
+    if db_user:
         raise HTTPException(status_code=404, detail="User shoudl be deleted")
     return crud.delete_user_by_id(db=db, user_id=user_id)
 
@@ -77,5 +77,13 @@ def read_movie(movie_id: int, db: Session = Depends(get_db)):
 def read_movies(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     movies = crud.get_movies(db, skip=skip, limit=limit)
     return movies
+
+
+@app.delete("/movie/{movie_id}")
+def del_movie(movie_id: int, movie: schemas.Movie, db: Session = Depends(get_db)):
+    db_movie = crud.delete_movie_by_id(db, movie_id=movie.mid)
+    if not db_movie:
+        raise HTTPException(status_code=404, detail="Movie should be deleted")
+    return crud.delete_movie_by_id(db=db, movie_id=movie_id)
 
 # rental
